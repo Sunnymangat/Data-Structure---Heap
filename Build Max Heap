@@ -1,0 +1,141 @@
+Build up max heap:-
+
+Example:-
+3 6 10 20 5
+
+Algorithm:-
+
+1. Insert element in the end of an array.
+2. Check element newly inserted is less or greater than parent.
+3. If greater then, do swapping and again follow step 2.
+4. If less then, simple stop.
+
+Step 1-> 3
+
+Step 2->     3
+            /
+           6
+
+          check the parent is greater or smaller
+          if smaller then swap them
+          
+          therefore, result is,
+          
+             6
+            /
+           3
+
+Step 3-> 
+              6
+            /  \
+           3    10
+          
+          Swap(6,10)
+          Then, it will become,
+          
+             10
+            /  \
+           3    6
+Step 4-> 
+             10
+            /  \
+           3    6
+          /
+       20
+       
+       Swap(20,3);
+            
+             10
+            /  \
+          20    6
+          /
+         3
+       
+       Swap(10,20);
+       
+             20
+            /  \
+          10    6
+          /
+         3
+       
+Step 5->
+             20
+            /  \
+          10    6
+          /\
+         3  5
+       Final Max Heap
+       
+           
+// Code to create Max Heap
+#include <bits/stdc++.h>
+using namespace std;
+
+class heap{
+    public:
+    vector<int> arr;
+    void insert(int data){
+        arr.push_back(data);
+        int ind=arr.size()-1;
+        while(ind>=0){
+            int parent=ind/2;
+            if(parent>=0 && arr[ind]>arr[parent]){
+                swap(arr[ind],arr[parent]);
+                ind=parent;
+            }else break;
+        }
+    }
+    
+    
+    void pop(){
+        int size=arr.size()-1;
+        if(size<0)return;
+        arr[0]=arr[size];
+        arr.pop_back();
+        int ind=0,n=arr.size();
+        while(ind<n){
+            int left=ind*2 + 1;
+            int right=ind*2 + 2;
+            if(left<n && right<n && arr[left]>arr[right] && arr[left]>arr[ind]){
+                swap(arr[ind],arr[left]);
+                ind=left;
+                
+            }
+            else if(left<n && right<n && arr[left]<arr[right] && arr[right]>arr[ind]){
+                swap(arr[ind],arr[right]);
+                ind=right;
+            }
+            else if(left<n && arr[left]>arr[ind]){
+                swap(arr[ind],arr[left]);
+                ind=left;
+            }
+            else if(right<n && arr[right]>arr[ind]){
+                swap(arr[ind],arr[right]);
+                ind=right;
+            }else{
+                break;
+            }
+        }
+    }
+    
+    void print(){
+        for(auto a:arr)cout<<a<<" ";
+        cout<<"\n";
+    }
+};
+
+int main()
+{
+    heap h;
+    h.insert(10);
+    h.insert(20);
+    h.insert(15);
+    h.insert(25);
+    h.insert(100);
+    h.print();
+    h.pop();
+    h.print();
+    
+    return 0;
+}
